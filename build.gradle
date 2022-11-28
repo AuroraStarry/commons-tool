@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group 'cn.starrys'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    maven { name 'aliyun-maven'; url 'https://maven.aliyun.com/repository/public' }
+    maven { name 'tencentyun-maven'; url 'https://mirrors.cloud.tencent.com/maven' }
+    maven { name 'aliyun-google-maven'; url 'https://maven.aliyun.com/repository/google' }
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}

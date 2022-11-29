@@ -10,7 +10,6 @@ import java.util.UUID;
 
 /**
  * @author XingKong
- * creationTime: 2022/8/17 15:45
  */
 public class Utility {
 

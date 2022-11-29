@@ -1,29 +1,17 @@
 plugins {
     id 'java'
+    id 'maven-publish' // 为了产生pom.xml文件
+    id 'signing' // 组件签名插件
 }
 
 group 'cn.starrys'
-version '1.0-SNAPSHOT'
+version '0.0.1'
 
 repositories {
     mavenLocal()
     maven { name 'aliyun-maven'; url 'https://maven.aliyun.com/repository/public' }
     maven { name 'tencentyun-maven'; url 'https://mirrors.cloud.tencent.com/maven' }
     mavenCentral()
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding 'UTF-8'
-}
-tasks.withType(Javadoc) {
-    options.encoding 'UTF-8'
-    options.version = true
-}
-java {
-    // 生成javaDoc.jar
-    withJavadocJar()
-    // 生成Source.jar
-    withSourcesJar()
 }
 
 ext {
@@ -41,6 +29,7 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 
+    // javax
     implementation "javax.servlet:javax.servlet-api:$javaxServletVersion"
     implementation "javax.annotation:javax.annotation-api:$javaxAnnotationVersion"
 
@@ -51,4 +40,76 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding 'UTF-8'
+}
+tasks.withType(Javadoc) {
+    options.encoding 'UTF-8'
+    options.version = true
+}
+java {
+    // 生成javaDoc.jar
+    withJavadocJar()
+    // 生成Source.jar
+    withSourcesJar()
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = project.group
+            artifactId = project.name
+            version = project.version
+            from components.java
+            pom {
+                // name 非artifactId
+                name = project.name
+                // 描述
+                description = "工具包"
+                // 项目地址
+                url = "https://github.com/XingKong746/commons-tool"
+                licenses {
+                    // 许可证名称和地址
+                    license {
+                        name = "MIT License"
+                        url = "https://github.com/XingKong746/commons-tool/blob/main/LICENSE"
+                    }
+                }
+                developers {
+                    // 开发者信息
+                    developer {
+                        // 开发者ID
+                        id = "79194954"
+                        // 开发者名
+                        name = "XingKong746"
+                        // 开发者邮箱
+                        email = "XingKong746@163.com"
+                    }
+                }
+                // 版本控制仓库地址
+                scm {
+                    connection = "scm:git:git://github.com/XingKong746/commons-tool.git"
+                    developerConnection = "scm:git:ssh://github.com/XingKong746/commons-tool.git"
+                    // 仓库url
+                    url = "https://github.com/XingKong746/commons-tool"
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name "sonatype"
+            def sonatypeRepository = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2"
+            def sonatypeSnapshotRepository = "https://s01.oss.sonatype.org/content/repositories/snapshots"
+            url = project.version.endsWith('SNAPSHOT') ? sonatypeSnapshotRepository : sonatypeRepository
+            credentials {
+                username = "$sonatypeUsername"
+                password = "$sonatypePassword"
+            }
+        }
+    }
+}
+signing {
+    sign publishing.publications.mavenJava
 }

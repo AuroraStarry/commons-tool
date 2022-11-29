@@ -97,6 +97,10 @@ publishing {
             }
         }
     }
+
+    /**
+     * 报错请注释这些内容
+     */
     repositories {
         maven {
             name "sonatype"
@@ -104,11 +108,13 @@ publishing {
             def sonatypeSnapshotRepository = "https://s01.oss.sonatype.org/content/repositories/snapshots"
             url = project.version.endsWith('SNAPSHOT') ? sonatypeSnapshotRepository : sonatypeRepository
             credentials {
+                // 报错请将 repositories 块注释掉
                 username = "$sonatypeUsername"
                 password = "$sonatypePassword"
             }
         }
     }
+
 }
 signing {
     sign publishing.publications.mavenJava

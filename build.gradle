@@ -12,8 +12,22 @@ repositories {
     mavenCentral()
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding 'UTF-8'
+}
+tasks.withType(Javadoc) {
+    options.encoding 'UTF-8'
+    options.version = true
+}
+java {
+    // 生成javaDoc.jar
+    withJavadocJar()
+    // 生成Source.jar
+    withSourcesJar()
+}
+
 ext {
-    junitVersion='5.9.0'
+    junitVersion = '5.9.0'
 
     javaxServletVersion = '4.0.1'
     javaxAnnotationVersion = '1.3.2'

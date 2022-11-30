@@ -1,69 +1,70 @@
 plugins {
-    id 'java'
-    id 'maven-publish' // 为了产生pom.xml文件
-    id 'signing' // 组件签名插件
+    id("java")
+    id("maven-publish") // 为了产生pom.xml文件
+    id("signing") // 组件签名插件
 }
 
-group 'cn.starrys'
-version '0.0.1'
-
-repositories {
-    mavenLocal()
-    maven { name 'aliyun-maven'; url 'https://maven.aliyun.com/repository/public' }
-    maven { name 'tencentyun-maven'; url 'https://mirrors.cloud.tencent.com/maven' }
-    mavenCentral()
-}
+group = "cn.starrys"
+version = "0.0.2"
+description = "工具包"
 
 ext {
     junitVersion = '5.9.0'
-
     lombokVersion = '1.18.24'
     gsonVersion = '2.10'
-
     javaxServletVersion = '4.0.1'
     javaxAnnotationVersion = '1.3.2'
-
     jakartaServletVersion = '5.0.0'
     jakartaAnnotationVersion = '2.1.0'
 }
 
 dependencies {
     // Junit5
-    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 
     // Lombok
-    implementation "org.projectlombok:lombok:$lombokVersion"
+    implementation("org.projectlombok:lombok:$lombokVersion")
 
-    // gson
-    implementation "com.google.code.gson:gson:$gsonVersion"
+    // Gson
+    implementation("com.google.code.gson:gson:$gsonVersion")
 
-    // Javax
-    implementation "javax.servlet:javax.servlet-api:$javaxServletVersion"
-    implementation "javax.annotation:javax.annotation-api:$javaxAnnotationVersion"
+    // javax
+    implementation("javax.servlet:javax.servlet-api:$javaxServletVersion")
+    implementation("javax.annotation:javax.annotation-api:$javaxAnnotationVersion")
 
-    // Servlet
-    implementation "jakarta.servlet:jakarta.servlet-api:$jakartaServletVersion"
-    implementation "jakarta.annotation:jakarta.annotation-api:$jakartaAnnotationVersion"
+    // jakarta
+    implementation("jakarta.servlet:jakarta.servlet-api:$jakartaServletVersion")
+    implementation("jakarta.annotation:jakarta.annotation-api:$jakartaAnnotationVersion")
 }
 
 test {
     useJUnitPlatform()
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding 'UTF-8'
+allprojects {
+    repositories {
+        mavenLocal()
+        maven { name = "aliyun-maven"; url = "https://maven.aliyun.com/repository/public" }
+        maven { name = "tencentyun-maven"; url = "https://mirrors.cloud.tencent.com/maven" }
+        mavenCentral()
+    }
+    clean { delete("$projectDir/out") }
+    tasks.withType(JavaCompile) { options.encoding("UTF-8") }
+    tasks.withType(Javadoc) {
+        options {
+            encoding("UTF-8")
+            version(true)
+        }
+    }
+    java {
+        // 生成javaDoc.jar
+        withJavadocJar()
+        // 生成Source.jar
+        withSourcesJar()
+    }
 }
-tasks.withType(Javadoc) {
-    options.encoding 'UTF-8'
-    options.version = true
-}
-java {
-    // 生成javaDoc.jar
-    withJavadocJar()
-    // 生成Source.jar
-    withSourcesJar()
-}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -72,10 +73,10 @@ publishing {
             version = project.version
             from components.java
             pom {
-                // name 非artifactId
+                // name = "星空的工具包"（此 name 非artifactId）
                 name = project.name
                 // 描述
-                description = "工具包"
+                description = project.description
                 // 项目地址
                 url = "https://github.com/XingKong746/commons-tool"
                 licenses {
@@ -109,13 +110,13 @@ publishing {
 
     repositories {
         maven {
-            name "sonatype"
+            name("sonatype")
             def sonatypeRepository = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2"
             def sonatypeSnapshotRepository = "https://s01.oss.sonatype.org/content/repositories/snapshots"
-            url = project.version.endsWith('SNAPSHOT') ? sonatypeSnapshotRepository : sonatypeRepository
+            url(project.version.endsWith("SNAPSHOT") ? sonatypeSnapshotRepository : sonatypeRepository)
             credentials {
-                username = sonatypeUsername
-                password = sonatypePassword
+                username(sonatypeUsername)
+                password(sonatypePassword)
             }
         }
     }

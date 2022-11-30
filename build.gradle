@@ -17,6 +17,9 @@ repositories {
 ext {
     junitVersion = '5.9.0'
 
+    lombokVersion = '1.18.24'
+    gsonVersion = '2.10'
+
     javaxServletVersion = '4.0.1'
     javaxAnnotationVersion = '1.3.2'
 
@@ -29,7 +32,13 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 
-    // javax
+    // Lombok
+    implementation "org.projectlombok:lombok:$lombokVersion"
+
+    // gson
+    implementation "com.google.code.gson:gson:$gsonVersion"
+
+    // Javax
     implementation "javax.servlet:javax.servlet-api:$javaxServletVersion"
     implementation "javax.annotation:javax.annotation-api:$javaxAnnotationVersion"
 
@@ -105,8 +114,8 @@ publishing {
             def sonatypeSnapshotRepository = "https://s01.oss.sonatype.org/content/repositories/snapshots"
             url = project.version.endsWith('SNAPSHOT') ? sonatypeSnapshotRepository : sonatypeRepository
             credentials {
-                username = "$sonatypeUsername"
-                password = "$sonatypePassword"
+                username = sonatypeUsername
+                password = sonatypePassword
             }
         }
     }

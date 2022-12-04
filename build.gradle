@@ -9,6 +9,7 @@ version = "0.0.2"
 description = "工具包"
 
 ext {
+    jetbrainsAnnotations = '23.0.0'
     junitVersion = '5.9.0'
     lombokVersion = '1.18.24'
     gsonVersion = '2.10'
@@ -19,6 +20,9 @@ ext {
 }
 
 dependencies {
+    // JetBrains 注解
+    implementation("org.jetbrains:annotations:$jetbrainsAnnotations")
+
     // Junit5
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")

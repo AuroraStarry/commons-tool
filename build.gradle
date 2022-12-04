@@ -5,38 +5,31 @@ plugins {
 }
 
 group = "cn.starrys"
-version = "0.0.3"
+version = "1.0.0"
 description = "工具包"
 
 ext {
-    jetbrainsAnnotations = '23.0.0'
     junitVersion = '5.9.0'
-    lombokVersion = '1.18.24'
-    gsonVersion = '2.10'
+    jetbrainsAnnotations = '23.0.0'
     javaxServletVersion = '4.0.1'
-    javaxAnnotationVersion = '1.3.2'
     jakartaServletVersion = '5.0.0'
-    jakartaAnnotationVersion = '2.1.0'
+    jakartaMail = '1.0.0'
 }
 
 dependencies {
-    // JetBrains 注解
-    implementation("org.jetbrains:annotations:$jetbrainsAnnotations")
-
     // Junit5
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 
-    // Gson
-    implementation("com.google.code.gson:gson:$gsonVersion")
+    // JetBrains 注解
+    implementation("org.jetbrains:annotations:$jetbrainsAnnotations")
 
     // javax
     implementation("javax.servlet:javax.servlet-api:$javaxServletVersion")
-    implementation("javax.annotation:javax.annotation-api:$javaxAnnotationVersion")
 
     // jakarta
     implementation("jakarta.servlet:jakarta.servlet-api:$jakartaServletVersion")
-    implementation("jakarta.annotation:jakarta.annotation-api:$jakartaAnnotationVersion")
+    implementation("org.eclipse.angus:jakarta.mail:$jakartaMail")
 }
 
 test {

@@ -23,9 +23,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 
-    // Lombok
-    implementation("org.projectlombok:lombok:$lombokVersion")
-
     // Gson
     implementation("com.google.code.gson:gson:$gsonVersion")
 
@@ -50,11 +47,17 @@ allprojects {
         mavenCentral()
     }
     clean { delete("$projectDir/out") }
-    tasks.withType(JavaCompile) { options.encoding("UTF-8") }
-    tasks.withType(Javadoc) {
-        options {
-            encoding("UTF-8")
-            version(true)
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding("UTF-8")
+        }
+    }
+    tasks.withType(Javadoc).tap {
+        configureEach {
+            options {
+                encoding("UTF-8")
+                version(true)
+            }
         }
     }
     java {

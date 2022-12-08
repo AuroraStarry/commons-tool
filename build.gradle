@@ -62,10 +62,10 @@ allprojects {
         }
     }
     java {
-        // 生成javaDoc.jar
-        withJavadocJar()
         // 生成Source.jar
         withSourcesJar()
+        // 生成javaDoc.jar
+        withJavadocJar()
     }
 }
 
